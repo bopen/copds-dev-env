@@ -1,4 +1,5 @@
-## Install
+
+## Install
 
 ```shell
 
@@ -6,7 +7,7 @@ make setup
 scripts/setup
 ```
 
-## Usage
+## Usage
 
 ```shell
 
