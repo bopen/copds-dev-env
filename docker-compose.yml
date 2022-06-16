@@ -1,0 +1,73 @@
+services:
+  stac:
+    image: pc-apis-stac
+    build:
+      context: ../planetary-computer-apis
+      dockerfile: pcstac/Dockerfile
+    env_file: ${PC_STAC_ENV_FILE:-./pc-stac.dev.env}
+    ports:
+      - "8081:8081"
+    volumes:
+      - ../planetary-computer-apis/pccommon:/opt/src/pccommon
+      - ../planetary-computer-apis/pcstac:/opt/src/pcstac
+    depends_on:
+      - database
+      - azurite
+      - redis
+    command: >
+      bash -c "pypgstac pgready && uvicorn pcstac.main:app --host 0.0.0.0 --port 8081 --reload --proxy-headers"
+  nginx:
+    image: nginx:1.10
+    container_name: pc-apis-nginx
+    links:
+      - database
+      - azurite
+      - redis
+    depends_on:
+      - database
+      - azurite
+      - redis
+    volumes:
+      - ./nginx/etc/nginx:/etc/nginx
+    ports:
+      - 8080:80
+  database:
+    container_name: pc-stac-db
+    image: pc-apis-stac-db
+    build:
+      context: ../planetary-computer-apis/pgstac
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgis
+    ports:
+      - "5432:5432"
+    volumes:
+      - pc-apis-pgdata:/var/lib/postgresql/data
+  azurite:
+    container_name: pcapis-azurite
+    image: mcr.microsoft.com/azure-storage/azurite
+    hostname: azurite
+    command: "azurite --silent --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0 -l /workspace"
+    ports:
+      - "10000:10000" # Blob
+      - "10001:10001" # Queue
+      - "10002:10002" # Table
+    volumes:
+      - pc-apis-azurite-data:/workspace
+  redis:
+    image: redis:6.2.6-buster
+    command: redis-server --port 6380 --requirepass devcache
+    ports:
+      - "6380:6380"
+    volumes:
+      - pc-apis-redis-data:/data
+
+volumes:
+  pc-apis-pgdata:
+  pc-apis-azurite-data:
+  pc-apis-redis-data:
+networks:
+  default:
+    name: pc-apis-dev-network
