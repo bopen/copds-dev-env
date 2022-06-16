@@ -1,0 +1,66 @@
+{
+  "type": "Collection",
+  "id": "reanalysis-era5-single-levels",
+  "title": "ERA5 hourly data on single levels from 1979 to present",
+  "stac_version": "1.0.0",
+  "description": "ERA5 is the fifth generation ECMWF reanalysis for the global climate and weather for the past 4 to 7 decades. Currently data is available from 1950, split into Climate Data Store entries for 1950-1978 (preliminary back extension) and from 1979 onwards (final release plus timely updates, this page). ERA5 replaces the ERA-Interim reanalysis.",
+  "links": [
+    {
+      "rel": "license",
+      "href": "https://cds.climate.copernicus.eu/cdsapp/#!/terms/licence-to-use-copernicus-products"
+    },
+    {
+      "rel": "documentation",
+      "href": "https://confluence.ecmwf.int/display/CKB/ERA5%3A+data+documentation",
+      "type": "application/pdf",
+      "title": "ERA5 online documentation"
+    }
+  ],
+  "keywords": [
+    "Variable domain: Atmosphere (surface)",
+    "Variable domain: Atmosphere (upper air)",
+    "Temporal coverage: Past",
+    "Spatial coverage: Global",
+    "Product type: Reanalysis",
+    "Provider: Copernicus C3S"
+  ],
+  "providers": [
+    {
+      "name": "Copernicus Climate Change Service",
+      "roles": [
+        "host",
+        "producer",
+        "licensor"
+      ],
+      "url": "https://climate.copernicus.eu/climate-reanalysis"
+    }
+  ],
+  "assets": {
+    "thumbnail": {
+      "href": "https://datastore.copernicus-climate.eu/c3s/published-forms-v2/c3sprod/reanalysis-era5-single-levels/overview.jpg",
+      "title": "ERA5 January 2016 map",
+      "media_type": "image/jpeg"
+    }
+  },
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          -180.0,
+          -90.0,
+          180.0,
+          90.0
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "1979-01-01T00:00:00Z",
+          "2021-12-31T00:00:00Z"
+        ]
+      ]
+    }
+  },
+  "license": "Licence to Use Copernicus Products"
+}
